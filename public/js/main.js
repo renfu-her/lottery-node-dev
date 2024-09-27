@@ -37,13 +37,13 @@ function loadUsersAndRewards() {
     .then((response) => response.json())
     .then((users) => {
       userSelect.innerHTML =
-        '<option value="">选择用户</option>' +
+        '<option value="">選擇用戶</option>' +
         users
           .map(
             (user) =>
               `<option value="${user.id}" ${user.hasWon ? "disabled" : ""}>${
                 user.name
-              } (${user.email}) ${user.hasWon ? "- 已获奖" : ""}</option>`
+              } (${user.email}) ${user.hasWon ? "- 已獲獎" : ""}</option>`
           )
           .join("");
     });
@@ -52,11 +52,11 @@ function loadUsersAndRewards() {
     .then((response) => response.json())
     .then((rewards) => {
       rewardSelect.innerHTML =
-        '<option value="">选择奖品</option>' +
+        '<option value="">選擇獎品</option>' +
         rewards
           .map(
             (reward) =>
-              `<option value="${reward.id}">${reward.rewardType} (剩余: ${reward.quantity})</option>`
+              `<option value="${reward.id}">${reward.rewardType} (剩餘: ${reward.quantity})</option>`
           )
           .join("");
     });
@@ -70,14 +70,14 @@ function updateAvailableRewards() {
         .map(
           (reward) =>
             `<li class="list-group-item">
-                    ${reward.rewardType} - ${reward.description} (剩余数量: ${reward.quantity})
+                    ${reward.rewardType} - ${reward.description} (剩餘數量: ${reward.quantity})
                 </li>`
         )
         .join("");
     })
     .catch((error) => {
-      console.error("获取可用奖励失败:", error);
-      showAlert("获取可用奖励失败", "danger", 3000);
+      console.error("獲取可用獎勵失敗:", error);
+      showAlert("獲取可用獎勵失敗", "danger", 3000);
     });
   loadUsersAndRewards();
 }
@@ -90,7 +90,7 @@ function updateRewardsList() {
         .map(
           (reward) =>
             `<li class="list-group-item">
-                    ${reward.User.name} (${reward.User.email}) 获得了 ${
+                    ${reward.User.name} (${reward.User.email}) 獲得了 ${
               reward.rewardType
             }
                     <small class="text-muted">- ${new Date(
@@ -101,8 +101,8 @@ function updateRewardsList() {
         .join("");
     })
     .catch((error) => {
-      console.error("获取中奖记录失败:", error);
-      showAlert("获取中奖记录失败", "danger", 3000);
+      console.error("獲取中獎記錄失敗:", error);
+      showAlert("獲取中獎記錄失敗", "danger", 3000);
     });
   loadUsersAndRewards();
 }

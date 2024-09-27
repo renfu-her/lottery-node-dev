@@ -14,7 +14,7 @@ const io = socketIo(server);
 app.use(express.json());
 app.use(express.static("public"));
 
-// 获取所有用户
+// 獲取所有用戶
 app.get("/api/users", async (req, res) => {
   try {
     const users = await User.findAll({
@@ -32,12 +32,12 @@ app.get("/api/users", async (req, res) => {
     });
     res.json(users);
   } catch (error) {
-    console.error("获取用户失败:", error);
-    res.status(500).json({ error: "获取用户失败" });
+    console.error("獲取用戶失敗:", error);
+    res.status(500).json({ error: "獲取用戶失敗" });
   }
 });
 
-// 添加新的可用奖励
+// 添加新的可用獎勵
 app.post("/api/available-rewards", async (req, res) => {
   try {
     const { rewardType, description, quantity } = req.body;
@@ -48,23 +48,23 @@ app.post("/api/available-rewards", async (req, res) => {
     });
     res.status(201).json(newReward);
   } catch (error) {
-    console.error("添加奖励失败:", error);
-    res.status(500).json({ error: "添加奖励失败" });
+    console.error("添加獎勵失敗:", error);
+    res.status(500).json({ error: "添加獎勵失敗" });
   }
 });
 
-// 获取所有可用奖励
+// 獲取所有可用獎勵
 app.get("/api/available-rewards", async (req, res) => {
   try {
     const rewards = await AvailableReward.findAll();
     res.json(rewards);
   } catch (error) {
-    console.error("获取奖励失败:", error);
-    res.status(500).json({ error: "获取奖励失败" });
+    console.error("獲取獎勵失敗:", error);
+    res.status(500).json({ error: "獲取獎勵失敗" });
   }
 });
 
-// 抽奖
+// 抽獎
 app.post("/api/draw", async (req, res) => {
   try {
     // 獲取所有沒有獲得過獎品的用戶
@@ -102,7 +102,7 @@ app.post("/api/draw", async (req, res) => {
 
     // 檢查獎勵是否成功創建
     const createdReward = await Reward.findByPk(reward.id);
-    console.log('Created Reward:', createdReward.toJSON());
+    console.log('創建的獎勵:', createdReward.toJSON());
 
     // 減少可用獎勵的數量
     availableReward.quantity -= 1;
@@ -116,7 +116,7 @@ app.post("/api/draw", async (req, res) => {
   }
 });
 
-// 获取中奖记录
+// 獲取中獎記錄
 app.get("/api/rewards", async (req, res) => {
   try {
     const rewards = await Reward.findAll({
@@ -124,24 +124,24 @@ app.get("/api/rewards", async (req, res) => {
     });
     res.json(rewards);
   } catch (error) {
-    console.error("获取中奖记录失败:", error);
-    res.status(500).json({ error: "获取中奖记录失败" });
+    console.error("獲取中獎記錄失敗:", error);
+    res.status(500).json({ error: "獲取中獎記錄失敗" });
   }
 });
 
-// 手动分配奖品给用户
+// 手動分配獎品給用戶
 app.post("/api/assign-reward", async (req, res) => {
   try {
     const { userId, rewardId } = req.body;
 
     const user = await User.findByPk(userId);
     if (!user) {
-      return res.status(404).json({ error: "用户不存在" });
+      return res.status(404).json({ error: "用戶不存在" });
     }
 
     const availableReward = await AvailableReward.findByPk(rewardId);
     if (!availableReward || availableReward.quantity <= 0) {
-      return res.status(404).json({ error: "奖品不可用或数量不足" });
+      return res.status(404).json({ error: "獎品不可用或數量不足" });
     }
 
     const reward = await Reward.create({
@@ -152,17 +152,17 @@ app.post("/api/assign-reward", async (req, res) => {
 
     // 檢查獎勵是否成功創建
     const createdReward = await Reward.findByPk(reward.id);
-    console.log('Created Reward:', createdReward.toJSON());
+    console.log('創建的獎勵:', createdReward.toJSON());
 
-    // 减少可用奖励的数量
+    // 減少可用獎勵的數量
     availableReward.quantity -= 1;
     await availableReward.save();
 
     io.emit("manualAssign", { user, reward });
-    res.json({ message: "奖品分配成功", user, reward });
+    res.json({ message: "獎品分配成功", user, reward });
   } catch (error) {
-    console.error("奖品分配失败:", error);
-    res.status(500).json({ error: "奖品分配失败" });
+    console.error("獎品分配失敗:", error);
+    res.status(500).json({ error: "獎品分配失敗" });
   }
 });
 
@@ -171,16 +171,16 @@ const PORT = process.env.PORT || 3000;
 async function startServer() {
   try {
     await sequelize.authenticate();
-    console.log("数据库连接成功。");
+    console.log("數據庫連接成功。");
 
     await sequelize.sync();
     console.log("模型同步完成。");
 
     server.listen(PORT, () => {
-      console.log(`服务器运行在端口 ${PORT}`);
+      console.log(`伺服器運行在端口 ${PORT}`);
     });
   } catch (error) {
-    console.error("无法连接到数据库:", error);
+    console.error("無法連接到數據庫:", error);
   }
 }
 
