@@ -1,0 +1,20 @@
+{
+  "name": "lottery-system",
+  "version": "1.0.0",
+  "description": "A simple lottery system with Node.js, Express, and MySQL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "express": "^4.21.0",
+    "mysql2": "^3.11.3",
+    "sequelize": "^6.37.3",
+    "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
